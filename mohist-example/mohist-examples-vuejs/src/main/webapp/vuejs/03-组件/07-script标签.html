@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>07-script标签</title>
+</head>
+<body>
+    <div id="app">
+        <my-div></my-div>
+    </div>
+
+    <script type="text/template" id="my_div">
+        <div>
+            <p>我时MT！</p>
+            <input type="date">
+            <img src="img/img_02.jpg">
+        </div>
+    </script>
+
+    <script src="js/vue.js"></script>
+    <script>
+
+        // 1.实例化组件
+        Vue.component('my-div', {
+            template: '#my_div'
+        });
+
+        new Vue({
+            el: '#app'
+        });
+    </script>
+</body>
+</html>

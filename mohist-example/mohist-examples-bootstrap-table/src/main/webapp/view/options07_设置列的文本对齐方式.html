@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>options07_设置列的文本对齐方式</title>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/bootstrap-table/bootstrap-table.css">
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../static/bootstrap-table/bootstrap-table.js"></script>
+</head>
+<body>
+<!--
+    设置列的文本对齐方式
+    right：靠右对齐
+    center：居中对齐
+    left：靠左对齐
+    1、data-halign：表头的文本对齐方式；
+    2、data-align：表格数据的文本对齐方式；
+-->
+<div class="container">
+    <h1>设置列的文本对齐方式</h1>
+    <p>right：靠右对齐</p>
+    <p>center：居中对齐</p>
+    <p>left：靠左对齐</p>
+    <p>1、data-halign：表头的文本对齐方式；</p>
+    <p>2、data-align：表格数据的文本对齐方式；</p>
+    <table id="table"
+           data-toggle="table"
+           data-height="460"
+           data-url="../json/data1.json">
+        <thead>
+        <tr>
+            <th data-field="id" data-halign="right" data-align="center">Item ID</th>
+            <th data-field="name" data-halign="center" data-align="left">Item Name</th>
+            <th data-field="price" data-halign="left" data-align="right">Item </th>
+        </tr>
+        </thead>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: Kuhn Wei
+  Date: 2018/3/19
+  Time: 21:31
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>index</title>
+</head>
+<body>
+<h1>你好</h1>
+<h2 th:text="呵呵"></h2>
+<span th:text="'字符串字面值需要用单引号包括'">默认值</span>
+<span th:text="2012 + 5">2017</span>
+<p th:text="true==true"></p>
+<p th:text="(17%5)-2"></p>
+<!-- gt (>), lt (<), ge (>=), le (<=), not (!), eq (==), neq/ne (!=) 。 -->
+<p th:text="1 gt 2"></p>
+<p th:text="true?'真':'假'"></p>
+<p th:text="null?:'我不是空值'"></p>
+<p th:text="_">不进行任何操作</p>
+</body>
+</html>

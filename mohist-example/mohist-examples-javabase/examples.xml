@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<examples>
+  <example id="1">
+    <content>content_1</content>
+  </example>
+  <example id="2">
+    <content>content_2</content>
+  </example>
+</examples>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>13-匿名插槽</title>
+</head>
+<body>
+    <div id="app">
+        <my-slot>
+            <h1>HOHO ~ HOHO ~ </h1>
+        </my-slot>
+    </div>
+
+    <!-- 注册一个组件 -->
+    <template id="my_slot">
+        <div id="panel">
+            <h2 class="panel-header">插槽的头部</h2>
+            <!-- ！预留插槽 -->
+            <slot>可以替换任何标签</slot>
+            <footer>插槽的尾部</footer>
+        </div>
+    </template>
+
+    <script src="js/vue.js"></script>
+    <script>
+        // 1.实例化组件
+        Vue.component('my-slot', {
+            template: '#my_slot'
+        });
+
+        new Vue({
+            el: '#app'
+        });
+    </script>
+</body>
+</html>

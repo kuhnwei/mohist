@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/rabbit
+       http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.kuhnwei.mohist.examples"/>
+    <!-- 定义rabbitmq 配置的相关属性信息 -->
+    <context:property-placeholder ignore-unresolvable="true" location="classpath:rabbitmq.properties"/>
+    <!-- 如果要想进行rabbitmq的操作处理，则首先一定要准备出一个连接工厂类 -->
+    <rabbit:connection-factory id="connectionFactory"
+                               host="${mq.rabbit.host}"
+                               port="${mq.rabbit.port}"
+                               username="${mq.rabbit.username}"
+                               password="${mq.rabbit.password}"
+                               virtual-host="${mq.rabbit.vhost}"/>
+    <!-- 所有的连接工厂要求被rabbitmq所管理 -->
+    <rabbit:admin connection-factory="connectionFactory"/>
+    <!-- 创建一个队列信息 -->
+    <rabbit:queue id="exampleQueue" durable="true" auto-delete="true" exclusive="false" name="example.queue.title"/>
+    <!-- 下面实现一个直连的操作模式 -->
+    <rabbit:direct-exchange id="directExchange" name="${mq.rabbit.exchange}" durable="true" auto-delete="true">
+        <rabbit:bindings>
+            <!-- 绑定到指定的队列之中 -->
+            <rabbit:binding queue="exampleQueue" key="msg-key"/>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+    <!-- 所有整合的消息系统都会有一个模板 -->
+    <rabbit:template id="amqpTemplate" exchange="${mq.rabbit.exchange}" connection-factory="connectionFactory"/>
+
+</beans>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>11-Vue的常用指令-v-bind</title>
+</head>
+<body>
+<!--
+
+-->
+    <div id="app">
+        <img v-bind:src="imgSrc" v-bind:alt="alt">
+        <img :src="imgSrc" :alt="alt">
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                imgSrc: 'img/img_01.jpg',
+                alt: '头像！'
+            }
+        });
+    </script>
+</body>
+</html>

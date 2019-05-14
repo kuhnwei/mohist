@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>07-Vue的常用指令-v-else-if</title>
+</head>
+<body>
+<!--
+    可以用v-else指令为v-if或v-show添加一个‘else块’。
+    注意：v-else前一兄弟元素必须又v-if或v-else-if。
+-->
+    <div id="app">
+        <p>输入的成绩对应的等级是：</p>
+        <p v-if="score > 90">优秀</p>
+        <p v-else-if="score >= 75">良好</p>
+        <p v-else-if="score >= 60">及格</p>
+        <p v-else>不及格</p>
+        <input type="text" v-model="score">
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                score: 90 // 优秀 良好 及格 不及格
+            }
+        });
+    </script>
+</body>
+</html>

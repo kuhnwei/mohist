@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>11-多层组件通信</title>
+</head>
+<body>
+    <div id="app">
+        <my-parent :imgsrc="img" :imgtitle="title"></my-parent>
+    </div>
+
+    <!-- 注册一个组件 -->
+    <template id="my_img">
+        <img :src="imgsrc" width="100">
+    </template>
+
+    <template id="my_title">
+        <h2>{{imgtitle}}</h2>
+    </template>
+
+    <template id="my_parent">
+        <div>
+            <child1 :imgsrc="imgsrc"></child1>
+            <child2 :imgtitle="imgtitle"></child2>
+        </div>
+    </template>
+
+    <script src="js/vue.js"></script>
+    <script>
+
+        // 1.子组件的实例
+        let Child1 = Vue.extend({
+            template: '#my_img',
+            props: ['imgsrc']
+        });
+
+        let Child2 = Vue.extend({
+            template: '#my_title',
+            props: ['imgtitle']
+        });
+
+        Vue.component('my-parent', {
+            props: ['imgsrc', 'imgtitle'],
+            components: {
+                'child1': Child1,
+                'child2': Child2
+            },
+            template: '#my_parent'
+        });
+
+        new Vue({
+            el: '#app',
+            data: {
+                title: 'Hello World',
+                img: 'img/img_01.jpg'
+            }
+        });
+    </script>
+</body>
+</html>

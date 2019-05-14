@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kuhnwei.mohist.examples.ssm.shiro.dao.UserDao">
+
+    <select id="get" parameterType="Integer" resultType="com.kuhnwei.mohist.examples.ssm.shiro.domain.UserDO">
+        SELECT id,username,password FROM t_mohist_user WHERE id=#{id}
+    </select>
+
+    <select id="getByUsername" parameterType="String" resultType="com.kuhnwei.mohist.examples.ssm.shiro.domain.UserDO">
+        SELECT id,username,password FROM t_mohist_user WHERE username=#{username}
+    </select>
+
+    <select id="listAllRoleByUserId" parameterType="Integer" resultType="String">
+        SELECT flag FROM t_mohist_role WHERE id IN (
+          SELECT role_id FROM t_mohist_user_role WHERE user_id=#{userId}
+        )
+    </select>
+    
+    <select id="listAllPermissionByUserId" parameterType="Integer" resultType="String">
+        SELECT flag FROM t_mohist_permission WHERE id IN(
+            SELECT permission_id FROM t_mohist_role_permission WHERE role_id IN(
+                SELECT role_id FROM t_mohist_user_role WHERE user_id=#{userId}
+            )
+        )
+    </select>
+</mapper>

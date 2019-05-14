@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kuhnwei.mohist.examples.mybatis.dao.ExampleDAO">
+
+    <resultMap id="AllResultMap" type="com.kuhnwei.mohist.examples.mybatis.domain.ExampleDO">
+        <id property="id" javaType="java.lang.Long" column="id" jdbcType="BIGINT"/>
+        <result property="exampleStr" javaType="java.lang.String" column="example_str" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" javaType="java.util.Date" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" javaType="java.util.Date" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="deleted" javaType="java.lang.Boolean" column="is_deleted" jdbcType="BIT"/>
+    </resultMap>
+
+    <sql id="AllColumnList">
+        id,
+        example_str,
+        gmt_create,
+        gmt_modified,
+        is_deleted
+    </sql>
+
+    <insert id="save" keyProperty="id" useGeneratedKeys="true" parameterType="com.kuhnwei.mohist.examples.mybatis.domain.ExampleDO">
+        INSERT
+        INTO t_mohist_example(id, example_str, gmt_create, gmt_modified, is_deleted)
+        VALUES (
+        #{id, jdbcType=BIGINT},
+        #{exampleStr, jdbcType=VARCHAR},
+        #{gmtCreate, jdbcType=TIMESTAMP},
+        #{gmtModified, jdbcType=TIMESTAMP},
+        #{deleted, jdbcType=BIT}
+        )
+    </insert>
+
+    <delete id="delete" parameterType="com.kuhnwei.mohist.examples.mybatis.domain.ExampleDO">
+        DELETE FROM t_mohist_example WHERE id = #{id, jdbcType=BIGINT}
+    </delete>
+
+    <select id="get" resultMap="AllResultMap" parameterType="com.kuhnwei.mohist.examples.mybatis.domain.ExampleDO">
+        SELECT
+        <include refid="AllColumnList"/>
+        FROM t_mohist_example
+        WHERE id = #{id, jdbcType=BIGINT}
+    </select>
+
+    <select id="list" resultMap="AllResultMap">
+        SELECT
+        <include refid="AllColumnList"/>
+        FROM t_mohist_example
+    </select>
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM t_mohist_example
+    </select>
+
+    <update id="update" parameterType="com.kuhnwei.mohist.examples.mybatis.domain.ExampleDO">
+        UPDATE t_mohist_example
+        <set>
+            <if test="exampleStr != null">
+                example_str = #{exampleStr, jdbcType=VARCHAR},
+            </if>
+            gmt_modified = #{gmtModified, jdbcType=TIMESTAMP},
+        </set>
+        WHERE id = #{id, jdbcType=BIGINT}
+    </update>
+</mapper>

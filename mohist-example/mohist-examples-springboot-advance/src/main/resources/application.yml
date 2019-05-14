@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  messages:
+    basename: i18n/message,i18n/pages
+  profiles: dev
+server:
+  context-path: /advance
+  port: 80
+---
+spring:
+  messages:
+    basename: i18n/message,i18n/pages
+  profiles: beta
+server:
+  context-path: /advance
+  port: 8080
+---
+spring:
+  messages:
+    basename: i18n/message,i18n/pages
+  profiles: product
+server:
+  context-path: /advance
+  port: 80

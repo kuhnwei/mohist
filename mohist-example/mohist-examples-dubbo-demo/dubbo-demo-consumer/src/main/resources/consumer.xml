@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="consumer-demo"/>
+
+    <dubbo:registry address="N/A"/>
+
+    <dubbo:reference id="demoService" interface="com.kuhnwei.mohist.dubbo.demo.DemoService" url="127.0.0.1:20880" check="false"/>
+
+</beans>

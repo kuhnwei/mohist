@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>01-vue-router的基本使用</title>
+    <link rel="stylesheet" href="bs/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2">
+            <div class="page-header">
+                <h1>IT666</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-2 col-xs-offset-2">
+            <div class="list-group">
+                <router-link class="list-group-item" to="/h5">HTML5</router-link>
+                <router-link class="list-group-item" to="/java">Java</router-link>
+                <router-link class="list-group-item" to="/python">Python</router-link>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="panel">
+                <div class="panel-body">
+                    <router-view></router-view>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<template id="h5">
+    <div>
+        <h2>HTML5学院</h2>
+        <p>掌握面向未来的神技！</p>
+    </div>
+</template>
+
+<template id="java">
+    <div>
+        <h2>JAVA学院</h2>
+        <p>掌握面向未来的神技！</p>
+    </div>
+</template>
+
+<template id="python">
+    <div>
+        <h2>Python学院</h2>
+        <p>掌握面向未来的神技！</p>
+    </div>
+</template>
+
+<script src="js/vue.js"></script>
+<script src="js/vue-router.js"></script>
+<script>
+
+    // 1.创建组件
+    const Html5 = Vue.extend({
+        template: '#h5'
+    });
+
+    const Java = Vue.extend({
+        template: '#java'
+    });
+
+    const Python = Vue.extend({
+        template: '#python'
+    });
+
+    // 2.定义路由
+    const routes = [
+        {path: '/h5', component: Html5},
+        {path: '/java', component: Java},
+        {path: '/python', component: Python},
+        // 配置根路由
+        {path: '/', redirect: '/h5'}
+    ];
+
+    // 3.创建路由实例
+    const router = new VueRouter({
+        routes: routes
+    });
+
+    // 4.创建Vue的实例，并挂载
+    new Vue({
+        router: router
+    }).$mount('#app')
+</script>
+</body>
+</html>

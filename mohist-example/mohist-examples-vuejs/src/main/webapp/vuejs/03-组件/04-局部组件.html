@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>04-局部组件</title>
+</head>
+<body>
+    <div id="app">
+        <my-date></my-date>
+        <my-color></my-color>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            components: {
+                'my-date': {
+                    // 1.1 模板选项
+                    template: `
+                <div>
+                    <input type="date">
+                    <p>今天老冷了！</p>
+                </div>
+            `
+                },
+                'my-color': {
+                    // 1.1 模板选项
+                    template: `
+                <div>
+                    <input type="color">
+                    <p>色板</p>
+                </div>
+            `
+                }
+            }
+        });
+    </script>
+</body>
+</html>

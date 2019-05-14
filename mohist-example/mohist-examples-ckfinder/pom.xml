@@ -1,0 +1,109 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>mohist-examples</artifactId>
+        <groupId>com.kuhnwei.mohist.examples</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>mohist-examples-ckfinder</artifactId>
+    <packaging>war</packaging>
+    <name>mohist-examples-ckfinder</name>
+    <url>http://maven.apache.org</url>
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-vfs</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>CKFinder</groupId>
+            <artifactId>CKFinder</artifactId>
+            <version>2.6.2.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/CKFinder-2.6.2.1.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>CKFinderPlugin-FileEditor</groupId>
+            <artifactId>CKFinderPlugin-FileEditor</artifactId>
+            <version>2.6.2.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/CKFinderPlugin-FileEditor-2.6.2.1.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>CKFinderPlugin-ImageResize</groupId>
+            <artifactId>CKFinderPlugin-ImageResize</artifactId>
+            <version>2.6.2.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/CKFinderPlugin-ImageResize-2.6.2.1.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>CKFinderPlugin-Watermark</groupId>
+            <artifactId>CKFinderPlugin-Watermark</artifactId>
+            <version>2.6.2.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/CKFinderPlugin-Watermark-2.6.2.1.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>mohist-examples-ckfinder</finalName>
+    </build>
+</project>

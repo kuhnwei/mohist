@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>02-局部组件</title>
+</head>
+<body>
+    <div id="app">
+        <my-date></my-date>
+        <my-color></my-color>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        // 1.组件构造器
+        let Profile = Vue.extend({
+            // 1.1 模板选项
+            template: `
+                <div>
+                    <input type="date">
+                    <p>今天老冷了！</p>
+                </div>
+            `
+        });
+
+        let Profile2 = Vue.extend({
+            // 1.1 模板选项
+            template: `
+                <div>
+                    <input type="color">
+                    <p>色板</p>
+                </div>
+            `
+        });
+
+        new Vue({
+            el: '#app',
+            components: {
+                'my-date': Profile,
+                'my-color': Profile2
+            }
+        });
+    </script>
+</body>
+</html>

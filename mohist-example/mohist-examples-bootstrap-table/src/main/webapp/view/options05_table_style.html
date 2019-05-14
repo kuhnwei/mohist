@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>options05_table_style</title>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/bootstrap-table/bootstrap-table.css">
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../static/bootstrap-table/bootstrap-table.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Table Style</h1>
+    <p>data-row-style：</p>
+    <p>function(row,index) { return class; }</p>
+    <p>自定义行样式 参数为：
+        row: 行数据
+        index: 行下标
+        返回值可以为class或者css</p>
+    <table data-toggle="table"
+           data-url="../json/data1.json"
+           data-height="400"
+           data-row-style="rowStyle">
+        <thead>
+        <tr>
+            <th data-field="id" class="col-md-2">Item ID</th>
+            <th data-field="name" class="col-md-6">
+                <i class="glyphicon glyphicon-star"></i>
+                Item Name
+            </th>
+            <th data-field="price" class="col-md-4">
+                <i class="glyphicon glyphicon-heart"></i>
+                Item Price
+            </th>
+        </tr>
+        </thead>
+    </table>
+</div>
+<script>
+    function rowStyle(row, index) {
+        var classes = ['active', 'success', 'info', 'warning', 'danger'];
+        if (index % 2 === 0 && index / 2 < classes.length) {
+            return {
+                classes: classes[index / 2]
+            };
+        }
+        return {};
+    }
+</script>
+</body>
+</html>

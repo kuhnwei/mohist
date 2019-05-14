@@ -1,0 +1,19 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: Kuhn Wei
+  Date: 2018/3/19
+  Time: 21:50
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>hello</title>
+</head>
+<body>
+<p th:text="${message}"/>
+<span th:text="|你好, ${message}!|"></span>
+<span th:text="'你好, ' + ${message} + '!'"></span>
+<p><a th:href="@{/}">返回主页</a></p>
+</body>
+</html>

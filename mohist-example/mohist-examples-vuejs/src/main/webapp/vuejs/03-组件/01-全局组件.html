@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>01-全局组件</title>
+</head>
+<body>
+    <div id="app">
+        <my-date></my-date>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        // 1.创建组件构造器
+        let Profile = Vue.extend({
+            // 1.1 模板选项
+            template: `
+                <div>
+                    <input type="date">
+                    <p>今天老冷了！</p>
+                </div>
+            `
+        });
+
+        // 2.注册全局组件
+        Vue.component('my-date', Profile);
+
+        new Vue({
+            el: '#app',
+            data: {
+                name: '今天老冷了'
+            }
+        });
+    </script>
+</body>
+</html>

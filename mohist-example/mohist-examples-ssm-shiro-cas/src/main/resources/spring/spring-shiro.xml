@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userCasRealm" class="com.kuhnwei.mohist.examples.ssm.shiro.realm.UserCasRealm">
+        <!-- 配置cas服务器的地址 -->
+        <property name="casServerUrlPrefix" value="http://localhost:80/cas"/>
+        <!-- 定义客户端的回调地址 -->
+        <property name="casService" value="http://localhost:8080/shiro/cas"/>
+    </bean>
+
+    <!-- cas过滤器 -->
+    <bean id="casFilter" class="org.apache.shiro.cas.CasFilter">
+        <!-- 登录失败后的访问路径 -->
+        <property name="failureUrl" value="http://localhost:80/cas/login?service=http://localhost:8080/shiro/cas"/>
+    </bean>
+
+    <!-- 退出过滤器 -->
+    <bean id="logout" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+        <property name="redirectUrl" value="http://localhost:80/cas/logout?service=http://localhost:8080/shiro/index.jsp"/>
+    </bean>
+
+    <bean id="casSubjectFactory" class="org.apache.shiro.cas.CasSubjectFactory"/>
+
+    <!-- 配置SecurityManager的管理 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!-- 配置需要使用的Realms -->
+        <property name="realm" ref="userCasRealm"/>
+        <property name="subjectFactory" ref="casSubjectFactory"/>
+        <property name="cacheManager" ref="cacheManager"/>
+        <!-- 定义要使用的session管理器 -->
+        <property name="sessionManager" ref="sessionManager"/>
+        <!-- 定义RememberMe的管理器 -->
+        <property name="rememberMeManager" ref="rememberMeManager"/>
+    </bean>
+
+    <!-- 配置shiro过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- 表示现在要配置的是一个安全管理器 -->
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 出现错误之后的跳转路径的配置 -->
+        <property name="loginUrl" value="http://localhost:80/cas/login?service=http://localhost:8080/shiro/cas"/>
+        <!-- 配置shiro里面需要使用到的过滤器操作 -->
+        <property name="filters">
+            <map>
+                <entry key="casFilter" value-ref="casFilter"/>
+                <entry key="logout" value-ref="logout"/>
+            </map>
+        </property>
+        <!-- shiro里面需要针对于所有的路径进行配置，所有的配置需要通过文本的形式设置 -->
+        <property name="filterChainDefinitions">
+            <value>
+                /cas=casFilter
+                /logout=logout
+                /**=authc
+            </value>
+        </property>
+    </bean>
+
+    <!-- 配置Shiro在Spring中的生命周期的控制操作 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- 进行缓存的操作配置 -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
+    </bean>
+
+    <!-- 定义session ID 生成管理器 -->
+    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
+
+    <!-- 配置Session DAO的操作处理 -->
+    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+        <!-- 设置session缓存的名字，这个名字可以任意 -->
+        <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
+        <!-- 定义该SessionDAO操作中所使用的ID生成器 -->
+        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+    </bean>
+
+    <!-- 配置需要向Cookie中保存数据的配置模板 -->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <!-- 在Tomcat运行下默认使用的Cookie的名字为JSESSIONID -->
+        <constructor-arg value="shiro-session-id"/>
+        <!-- 保证该系统不会受到跨域的脚本操作供给 -->
+        <property name="httpOnly" value="true"/>
+        <!-- 定义Cookie的过期时间，单位为秒，如果设置为-1表示浏览器关闭，则Cookie消失 -->
+        <property name="maxAge" value="-1"/>
+    </bean>
+
+    <!-- 定义会话管理器的操作 -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <!-- 定义的是全局的session会话超时时间，此操作会覆盖web.xml文件中的超时时间配置 -->
+        <property name="globalSessionTimeout" value="1000000"/>
+        <!-- 删除所有无效的Session对象，此时的session被保存在了内存里面 -->
+        <property name="deleteInvalidSessions" value="true"/>
+        <!-- 定义要使用的无效的Session定时调度器 -->
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+        <!-- 需要让此session可以使用该定时器进行检测 -->
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <!-- 定义session可以进行序列化的工具类 -->
+        <property name="sessionDAO" ref="sessionDAO"/>
+        <!-- 所有的session一定要将id设置到Cookie之中，需要提供有Cookie的操作模板 -->
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        <!-- 定义sessionIdCookie模板可以进行操作的启动 -->
+        <property name="sessionIdCookieEnabled" value="true"/>
+    </bean>
+
+    <!-- 配置session的定时验证检测程序类，以让无效的session释放 -->
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
+        <!-- 设置session的实效扫描间隔时间，单位为毫秒 -->
+        <property name="sessionValidationInterval" value="1000000"/>
+        <!-- 随后还需要定义有一个会话管理器的程序类引用 -->
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
+
+    <!-- 配置需要向Cookie中保存数据的配置模板（RememberMe） -->
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <!-- 设置Cookie在浏览器中保存内容的名字，由用户自己来设置 -->
+        <constructor-arg value="SHIRO-RememberMe"/>
+        <!-- 保证该系统不会受到跨域的脚本操作供给 -->
+        <property name="httpOnly" value="true"/>
+        <!-- 定义Cookie的过期时间为一小时 -->
+        <property name="maxAge" value="3600"/>
+    </bean>
+
+    <!-- 定义RememberMe功能的程序管理类 -->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <!-- 定义在进行RememberMe功能实现的时候所需要使用的Cookie的处理类 -->
+        <property name="cookie" ref="rememberMeCookie"/>
+    </bean>
+</beans>

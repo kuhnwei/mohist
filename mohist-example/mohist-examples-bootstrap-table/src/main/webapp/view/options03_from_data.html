@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>options03_from_data</title>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/bootstrap-table/bootstrap-table.css">
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../static/bootstrap-table/bootstrap-table.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>From data</h1>
+    <p>data-filed：设置列字段变量名</p>
+    <p>$('#table').bootstrapTable({data: 数组对象});：设置表格数据</p>
+    <table id="table">
+        <thead>
+        <tr>
+            <th data-field="id">ID</th>
+            <th data-field="name">Item Name</th>
+            <th data-field="price">Item Price</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+<script>
+    var $table = $('#table');
+    $(function () {
+        var data = [
+            {
+                "id": 0,
+                "name": "Item 0",
+                "price": "$0"
+            },
+            {
+                "id": 1,
+                "name": "Item 1",
+                "price": "$1"
+            },
+            {
+                "id": 0,
+                "name": "Item 0",
+                "price": "$0"
+            },
+            {
+                "id": 0,
+                "name": "Item 0",
+                "price": "$0"
+            },
+            {
+                "id": 0,
+                "name": "Item 0",
+                "price": "$0"
+            },
+            {
+                "id": 0,
+                "name": "Item 0",
+                "price": "$0"
+            },
+        ];
+        $table.bootstrapTable({data: data});
+    });
+</script>
+</body>
+</html>
