@@ -1,0 +1,60 @@
+# Netty开发框架
+
+## ![1557888126055](C:\Users\kuhn\AppData\Roaming\Typora\typora-user-images\1557888126055.png)
+
+网络程序的核心在于：数据通讯交互，即便有了`NIO`也已经实现了新的处理模型，但是整体的程序开发难度是非常高的，也就是说`NIO(AIO)`如果直接编写，则对于开发者的要求是非常高的，在整个编程开发过程之中需要考虑：长连接、数据的粘包与拆包、各种处理协议问题（`HTTP`、`WebSocket`），在现实的开发环境里面，对于`JDK`的原生支持只能够说是一个程序实现依赖，但是如果要想更好的去实现所需要的开发，那么就需要对原生的技术进行进一步的包裹，在这样的背景下就需要有高性能的`IO`通讯框架出现，而对于这样的通讯框架有`MINA`、`Netty`。
+
+## Netty简介
+
+Netty是一个最为成熟的、流行的异步通讯的高性能的开发框架啊，当你开始去研究`Netty`的时候证明你现在的开发重点已经不仅仅是在做一个简单的`CRUD`的规范化项目开发，而是要开始更多的考虑高性能通信的问题。
+
+`Netty`是基于`NIO`的一种包装，同时也是`Reactor`模型的一种实现（`NIO`本身就是`Reactor`模型的实现），在`Reactor`模型里面所有的连接的通道需要进行注册，而后采用统一的方式进行操作，下面以`NIO`中的程序类例：`Selector`、`Channel`、`Buffer`。
+
+![1557891993864](C:\Users\kuhn\AppData\Roaming\Typora\typora-user-images\1557891993864.png)
+
+而在整个的`Netty`开发框架里面也完全支持有这样的处理模型，所以可以将`Netty`理解为`NIO`的完美实现，帮助开发者解决了所有的通讯之中所能够遇见的难题，包括像华为也有许多的中间件是基于`Netty`开发的。
+
+http://netty.io
+
+`Netty`可以实现`HTTP`服务器的开发，但是这种开发和传统的`Tomcat`还是有所区别的，`Tomcat`是一个所谓的公版的`HTTP`服务器，并且`Tomcat`是基于`NIO`实现的（`Tomcat`性能并不会太差），使用`Netty`可以更方便的处理大数据量的信息交互。
+
+同时也需要清楚在整个`Netty`里面它之所以可以方便的处理各种网络通讯问题，是因为它为了解决这一系列的问题采用了责任链的设计模式（过滤器其实就是一种责任链的实现），在过滤链之中会有提供一系列的数据处理操作，以帮助开发者简化操作流程，同时也为开发者开发自定义的过滤程序提供支持（一般出现在编码与解码操作上、对象序列化传输）。
+
+`Netty`开发框架的主要功能是解决网络通讯问题（提升网络通讯的性能支持），所以在这样的背景下，如果要想进行`Netty`的开发就必须考虑到服务端与客户端两个组成部分。
+
+但是需要清楚的另外一个实际的问题在于，`Netty`在整个系统开发之中时一个什么杨的地位呢？
+
+在当今的社会已经处于一个大数据的时代了，那么大数据时代的一个明显标志在于：数据采集上，那么当有成千上万台的设备要进行数据采集的时候，我们需要考虑的时什么？
+
+		- 数据的发送格式
+		- 如何可以稳定的进行数据的全部接收。
+
+那么对于数据的接收由于并发访问的数据量会非常的庞大，所以在这样的处理情况下肯定会想到使用消息中间件来解决此时数据访问量过大的问题。
+
+![1557892604383](C:\Users\kuhn\AppData\Roaming\Typora\typora-user-images\1557892604383.png)
+
+## Netty编程起步
+
+任何的网络开发里面最为重要的一个开发模型就是ECHO程序模型，利用ECHO程序结构就可以对其进行扩展，而幸运的是，在整个的`Netty`开发框架之中已经帮助开发者提供各种线程池的支持了，所以开发者只需要关注核心即可。
+
+### Netty常用类
+
+`Netty`在整体的开发处理之中依然沿用了`NIO`的相关概念，包括一些类的功能都与`NIO`的定义时相同的，下面首先来观察几个核心的类定义。
+
+- `io.netty.channel.EventLoopGroup`：创建要给线程池的循环处理器；
+  - 子类：`io.netty.channel.nio.NioEventLoopGroup`；
+- `io.netty.channel.Channel`：进行所有通道的定义；
+- `io.netty.channel.ChannelPipeline`：`Netty`对于数据的处理采用了责任链的模式，而此模式实现的关键在于此接口的使用，在此接口可以定义所有操作的程序类（顺序模式）；
+  - 在最后添加处理器：`public ChannelPipeline addLast(ChannelHandler... handlers)`；
+  - 在之前添加处理器：`public ChannelPipeline addFirst(ChannelHandler... handlers)`。
+
+在整个`Netty`里面它在进行数据处理的时候考虑到了输入（`in`、`ChannelInboundInvoker`）与输出（`out`、`ChannelOutboundInvoker`）的问题。
+
+![1557901869740](C:\Users\kuhn\AppData\Roaming\Typora\typora-user-images\1557901869740.png)
+
+- `io.netty.bootstrap.ServerBootstrap`：配置服务端的启动；
+- `io.netty.channel.socket.nio.NioServerSocketChannel`：进行服务端`Channel`定义；
+
+![1557901956231](C:\Users\kuhn\AppData\Roaming\Typora\typora-user-images\1557901956231.png)
+
+###
