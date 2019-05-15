@@ -1,0 +1,5 @@
+chmod +x /etc/init.d/redisd
+update-rc.d redisd defaults
+
+service redisd start
+service redisd stop

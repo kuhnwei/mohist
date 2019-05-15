@@ -24,5 +24,5 @@
 ## DATABASE
 
 - [SqlServer安装及配置](SQLServer/SQLServer安装及配置.md)
-- [InfluxDB使用文档](InfluxDB/InfluxDB使用文档.md)
+- [InfluxDB使用文档](TICK/InfluxDB/InfluxDB使用文档.md)
 

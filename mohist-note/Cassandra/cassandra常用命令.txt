@@ -1,0 +1,27 @@
+
+# 导出数据库结构 
+
+cqlsh ip -e 'desc keyspace 库' > 文件
+
+cqlsh 192.168.10.3 -e 'desc keyspace acdm' > db.cql
+
+# 如果cqlsh还未配到系统环境变量中，就进入到cassandra的bin目录下执行
+
+./cqlsh 192.168.10.3 -e 'desc keyspace acdm' > db.cql
+
+# 导入数据库结构
+
+cqlsh 192.168.10.3 -f db.cql
+
+
+# 显示keyspace列表
+DESCRIBE KEYSPACES
+
+# 进入到指定的 KEYSPACE
+USE KEYSPACE_NAME
+
+# 显示keyspace里的所有表
+DESCRIBE TABLES
+
+# 删除keyspace
+DROP KEYSPACE KEYSPACE_NAME

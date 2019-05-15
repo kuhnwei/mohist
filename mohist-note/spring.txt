@@ -1,0 +1,4 @@
+<context:property-placeholder location="classpath:rabbitmq.properties" ignore-unresolvable="true"/>
+springp配置中如果使用多个<context:property-placeholder/>引用资源文件，需要添加属性ignore-unresolvable="true"
+
+spring 与 quartz 整合 4.X版本开始 org.springframework.scheduling.quartz.SchedulerFactoryBean 从原来的spring-context包中独立出来在spring-context-support包中

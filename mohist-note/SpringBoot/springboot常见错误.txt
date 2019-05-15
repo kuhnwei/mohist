@@ -1,0 +1,12 @@
+springboot 在整合mybatis时
+
+在spring中一般我们在创建mapper接口类的时候 使用注解的方式创建bean
+
+常使用 @Component 或 @Repository 等
+
+但是在springboot中使用这样的注解是会无法实例化该Mapper接口而出现异常
+
+2018-04-29 19:25:07,561 ERROR [TestContextManager.java:234] : Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@55182842] to prepare test instance [com.kuhnwei.mohist.dao.UserDAOTest@4776e209]
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'com.kuhnwei.mohist.dao.UserDAOTest': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.kuhnwei.mohist.dao.UserDAO' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@javax.annotation.Resource(shareable=true, lookup=, name=, description=, authenticationType=CONTAINER, type=class java.lang.Object, mappedName=)}
+
+而是应该使用@Mapper 注解

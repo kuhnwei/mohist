@@ -1,0 +1,32 @@
+设置Cassandra的源
+
+1、Add the Apache repository of Cassandra to /etc/apt/sources.list.d/cassandra.sources.list, for example for the latest 3.11 version:
+echo "deb http://www.apache.org/dist/cassandra/debian 311x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
+
+2、Add the Apache Cassandra repository keys:
+curl https://www.apache.org/dist/cassandra/KEYS | sudo apt-key add -
+
+3、Update the repositories:
+sudo apt-get update
+
+4、If you encounter this error:
+GPG error: http://www.apache.org 311x InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY A278B781FE4B2BDA
+
+5、Then add the public key A278B781FE4B2BDA as follows:
+sudo apt-key adv --keyserver pool.sks-keyservers.net --recv-key A278B781FE4B2BDA
+
+6、and repeat： 
+sudo apt-get update
+
+7、Install Cassandra:
+sudo apt-get install cassandra
+
+
+开启Cassandra服务：sudo service cassandra start
+停止Cassandra服务：sudo service cassandra stop
+
+cassandra默认的配置文件路径/etc/cassandra
+cassandra默认的日志和数据文件路径/var/log/cassandra and /var/lib/cassandra
+Start-up options (heap size, etc) can be configured in /etc/default/cassandra.
+
+修改/etc/cassandra/cassandra.yaml文件的rpc_address: localhost 修改成服务器IP地址，才可以远程连接访问

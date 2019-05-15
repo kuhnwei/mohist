@@ -1,0 +1,2 @@
+
+该样例是最纯粹的Spring Boot项目中使用JdbcTemplate的例子。

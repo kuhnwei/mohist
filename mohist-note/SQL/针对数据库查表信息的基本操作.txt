@@ -1,0 +1,40 @@
+
+-- 查看数据库里有哪些表以及对应的基本信息
+	SELECT 
+	TABLE_NAME tableName, 
+	`ENGINE` engine, 
+	TABLE_COMMENT tableComent, 
+	CREATE_TIME createTime
+	FROM 
+	information_schema.`TABLES`
+	WHERE 
+	TABLE_SCHEMA = (SELECT DATABASE())
+	#AND TABLE_NAME like CONCAT('%sys%')
+	ORDER BY TABLE_NAME
+	#LIMIT 0,5
+	
+-- 统计数据库有多少张表
+	SELECT COUNT(*) 
+	FROM information_schema.`TABLES`
+	WHERE TABLE_SCHEMA = (SELECT DATABASE())
+	#AND TABLE_NAME like CONCAT('%sys%')
+	
+-- 查询某个表里的”列“信息
+	SELECT 
+	COLUMN_NAME columnName,
+	DATA_TYPE dataType,
+	COLUMN_TYPE columnType,
+	COLUMN_COMMENT columnComment,
+	column_key columnKey,
+	extra,
+	IS_NULLABLE,
+	CHARACTER_MAXIMUM_LENGTH,
+	CHARACTER_OCTET_LENGTH,
+	NUMERIC_PRECISION,
+	NUMERIC_SCALE
+	FROM 
+	information_schema.`COLUMNS`
+	WHERE
+	TABLE_NAME = 'sys_user'
+	AND TABLE_SCHEMA = (SELECT DATABASE())
+	ORDER BY ORDINAL_POSITION

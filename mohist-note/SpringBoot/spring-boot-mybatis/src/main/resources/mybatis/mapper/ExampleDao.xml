@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szatc.demo.dao.ExampleDao">
+
+    <resultMap id="AllResultMap" type="Example">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="text" property="text" jdbcType="VARCHAR" />
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+        <result column="is_deleted" property="deleted" jdbcType="BIT" />
+    </resultMap>
+
+    <sql id="AllColumnList">
+        id,
+        text,
+        gmt_create,
+        gmt_modified,
+        is_deleted
+    </sql>
+
+    <select id="get" resultMap="AllResultMap" parameterType="Example">
+        SELECT
+        <include refid="AllColumnList"/>
+        FROM example
+        WHERE is_deleted = #{DELETED_FALSE, jdbcType=BIT}
+        AND id = #{id, jdbcType=BIGINT}
+    </select>
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM example WHERE is_deleted = #{DELETED_FALSE, jdbcType=BIT}
+    </select>
+
+    <select id="list" resultMap="AllResultMap">
+        SELECT <include refid="AllColumnList"/> FROM example WHERE is_deleted = #{DELETED_FALSE, jdbcType=BIT}
+    </select>
+
+    <insert id="save" keyProperty="id" useGeneratedKeys="true" parameterType="Example" >
+        INSERT INTO example
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="text != null" >
+                text,
+            </if>
+            <if test="gmtCreate != null" >
+                gmt_create,
+            </if>
+            <if test="gmtModified != null" >
+                gmt_modified,
+            </if>
+            <if test="deleted != null" >
+                is_deleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="text != null" >
+                #{text, jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null" >
+                #{gmtCreate, jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null" >
+                #{gmtModified, jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null" >
+                #{deleted, jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 修改ID对应的用户信息 -->
+    <update id="update" parameterType="Example" >
+        UPDATE example
+        <set >
+            <if test="text != null" >
+                text = #{text,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtModified != null" >
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE is_deleted = #{DELETED_FALSE, jdbcType=BIT}
+        AND id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="remove" parameterType="Example">
+        UPDATE
+        example
+        SET
+        is_deleted = #{DELETED_TRUE, jdbcType=BIT},
+        gmt_modified = now()
+        WHERE
+        id = #{id, jdbcType=BIGINT}
+    </update>
+
+
+</mapper>
