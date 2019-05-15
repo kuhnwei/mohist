@@ -1,6 +1,6 @@
 # Netty开发框架
 
-## ![1557888126055](C:\Users\kuhn\AppData\Roaming\Typora\typora-user-images\1557888126055.png)
+## ![1557888126055](img/1557888126055.png)
 
 网络程序的核心在于：数据通讯交互，即便有了`NIO`也已经实现了新的处理模型，但是整体的程序开发难度是非常高的，也就是说`NIO(AIO)`如果直接编写，则对于开发者的要求是非常高的，在整个编程开发过程之中需要考虑：长连接、数据的粘包与拆包、各种处理协议问题（`HTTP`、`WebSocket`），在现实的开发环境里面，对于`JDK`的原生支持只能够说是一个程序实现依赖，但是如果要想更好的去实现所需要的开发，那么就需要对原生的技术进行进一步的包裹，在这样的背景下就需要有高性能的`IO`通讯框架出现，而对于这样的通讯框架有`MINA`、`Netty`。
 
@@ -10,7 +10,7 @@ Netty是一个最为成熟的、流行的异步通讯的高性能的开发框架
 
 `Netty`是基于`NIO`的一种包装，同时也是`Reactor`模型的一种实现（`NIO`本身就是`Reactor`模型的实现），在`Reactor`模型里面所有的连接的通道需要进行注册，而后采用统一的方式进行操作，下面以`NIO`中的程序类例：`Selector`、`Channel`、`Buffer`。
 
-![1557891993864](C:\Users\kuhn\AppData\Roaming\Typora\typora-user-images\1557891993864.png)
+![1557891993864](img/1557891993864.png)
 
 而在整个的`Netty`开发框架里面也完全支持有这样的处理模型，所以可以将`Netty`理解为`NIO`的完美实现，帮助开发者解决了所有的通讯之中所能够遇见的难题，包括像华为也有许多的中间件是基于`Netty`开发的。
 
@@ -31,7 +31,7 @@ http://netty.io
 
 那么对于数据的接收由于并发访问的数据量会非常的庞大，所以在这样的处理情况下肯定会想到使用消息中间件来解决此时数据访问量过大的问题。
 
-![1557892604383](C:\Users\kuhn\AppData\Roaming\Typora\typora-user-images\1557892604383.png)
+![1557892604383](img/1557892604383.png)
 
 ## Netty编程起步
 
@@ -50,11 +50,11 @@ http://netty.io
 
 在整个`Netty`里面它在进行数据处理的时候考虑到了输入（`in`、`ChannelInboundInvoker`）与输出（`out`、`ChannelOutboundInvoker`）的问题。
 
-![1557901869740](C:\Users\kuhn\AppData\Roaming\Typora\typora-user-images\1557901869740.png)
+![1557901869740](img/1557901869740.png)
 
 - `io.netty.bootstrap.ServerBootstrap`：配置服务端的启动；
 - `io.netty.channel.socket.nio.NioServerSocketChannel`：进行服务端`Channel`定义；
 
-![1557901956231](C:\Users\kuhn\AppData\Roaming\Typora\typora-user-images\1557901956231.png)
+![1557901956231](img/1557901956231.png)
 
 ###
