@@ -3,6 +3,6 @@
 ```
 mohist
 ├── mohist-note
-└── mohist-example
+└── mohist-examples
 ```
 
