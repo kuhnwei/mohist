@@ -696,3 +696,168 @@ public class HttpServer {
    ```
 
    此时按照了`Tomcat`的实现形式实现了`Cookie`的整体处理流程，现在可以特别清楚的发现，`Cookie`工作在客户端，而`Session`工作在服务器端，同时`Session`中是需要通过集合来进行`Session`数据保存的。
+   
+   ## WebSocket通讯
+   
+   从`WEB 2.0`时代开始最重要的技术产物就是`Ajax`，但是传统的`Ajax`在进行处理的时候会有许多的不方便之处，例如：在使用`Ajax`进行数据传输的时候基本上都只能够传输文本的操作数据（`JSON`传输），同时最为关键的要给问题在于`Ajax`采用的是伪异步的处理模型完成，所以`Ajax`在整体的处理逻辑上并不高效，从另外一个方面来将，`HTML5`之后前端的开发得到了进一步得规范，所以在`HTML5`里面有一项与程序开发人员最为贴近得技术：`WebSocket`通讯，直接利用`HTML`页面就可以开启一个`Socket`连接，这样就可以编写出更加丰富得程序处理逻辑。
+   
+   例如：在现实生活之中经常会遇见在线咨询的问题，就是利用`WebSocket`技术来实现的，可以发现可以通过网页、手机、应用程序来进行相同信息的沟通。
+   
+   ### WebSocket基础实现
+   
+   `Tomcat`本身就是支持有`WebSocket`处理能力，所以本次的开发将直接基于`Tomcat`进行`WebSocket`基本程序的讲解。
+   
+   1. 引入`websocket`依赖包
+   
+      ```xml
+      <dependency>
+          <groupId>javax.websocket</groupId>
+          <artifactId>javax.websocket-api</artifactId>
+          <version>${websocket.version}</version>
+          <scope>provided</scope>
+      </dependency>
+      ```
+   
+   2. 开发一个`Echo`消息回应的`WebSocket`程序
+   
+      ```java
+      package site.mohist.websocket;
+      import javax.websocket.OnClose;
+      import javax.websocket.OnMessage;
+      import javax.websocket.OnOpen;
+      import javax.websocket.Session;
+      import javax.websocket.server.ServerEndpoint;
+      import java.io.IOException;
+      @ServerEndpoint("/message") // websocket程序的服务路径
+      public class EchoMessageServer {
+      
+          @OnOpen
+          public void openMethod() {
+              System.out.println("************** [EchoMessageServer] 打开连接 **************");
+          }
+      
+          @OnMessage
+          public void messageHandle(String message, Session session) {
+              System.out.println("************** [EchoMessageServer] 接收到发送的消息：" + message);
+              try {
+                  session.getBasicRemote().sendText("ECHO : " + message);
+              } catch (IOException e) {
+                  e.printStackTrace();
+              }
+          }
+      
+          @OnClose
+          public void closeMethod() {
+              System.out.println("************** [EchoMessageServer] 关闭连接 **************");
+          }
+      
+      }
+      
+      ```
+   
+      部署到`Tomcat`服务器，服务路径：`ws://localhost/ws/message`
+   
+   3. 任意位置创建一个`HTML`页面，以此来与`WebSocket`服务建立通讯
+   
+      ```html
+      <html>
+          <head>
+              <title>WebSocket通讯</title>
+              <meta charset="UTF-8"/>
+          </head>
+          <body>
+              <div id="contentDiv" style="height: 300px; overflow: scroll; background: lightblue">
+              </div>
+              <div id="inputDiv">
+                  请输入信息：<input type="text" name="msg" id="msg"/>
+                  <button id="sendBut">发送</button>
+              </div>
+          </body>
+          <script type="text/javascript">
+              const url = "ws://localhost/ws/message";
+              window.onload = () => {
+                  let webSocket = new WebSocket(url);
+                  webSocket.onopen = () => {
+                      document.getElementById("contentDiv").innerHTML += "<p>服务器连接成功，请进行消息的处理。</p>";
+                  };
+                  webSocket.onclose = () => {
+                      document.getElementById("contentDiv").innerHTML += "<p>已经和服务器断开连接。</p>";
+                  };
+                  webSocket.onmessage = (obj) => {
+                      document.getElementById("contentDiv").innerHTML += "<p>" + obj.data + "</p>";
+                      document.getElementById("msg").value = "";
+                  };
+      
+                  document.getElementById("sendBut").addEventListener("click", () => {
+                      let info = document.getElementById("msg").value;
+                      webSocket.send(info);
+                  }, false);
+              };
+          </script>
+      </html>
+      ```
+   
+   可以发现此时的`WebSocket`页面程序不是必须与服务器捆绑在一起，而是可以由开发者人力进行控制，也就是说只要由了`WebSocket`的地址，就可以进行`WebSocket`通讯实现。
+   
+   ### 利用Netty实现WebSocket服务端
+   
+   1. `WebSocketServerHandler`
+   
+      ```java
+      public class WebSocketServerHandler extends ChannelHandlerAdapter {
+          @Override
+          public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+              TextWebSocketFrame textFrame = (TextWebSocketFrame) msg;
+              String echoValue = "【ECHO】" + textFrame.content().toString(CharsetUtil.UTF_8);
+              ctx.writeAndFlush(new TextWebSocketFrame(echoValue));
+          }
+      
+          @Override
+          public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+              cause.printStackTrace();
+          }
+      }
+      ```
+   
+   2. `WebSocketServer`
+   
+      ```JAVA
+      public class WebSocketServer {
+          public void run() throws Exception {
+              EventLoopGroup boosGrop = new NioEventLoopGroup();
+              EventLoopGroup workGrop = new NioEventLoopGroup();
+              try {
+                  ServerBootstrap serverBootstrap = new ServerBootstrap();
+                  serverBootstrap.group(boosGrop, workGrop);
+                  serverBootstrap.channel(NioServerSocketChannel.class);
+                  serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
+                      @Override
+                      protected void initChannel(SocketChannel ch) throws Exception {
+                          ch.pipeline().addLast(new HttpRequestDecoder());
+                          ch.pipeline().addLast(new HttpObjectAggregator(1024 * 1024 * 100));
+                          ch.pipeline().addLast(new HttpResponseEncoder());
+                          ch.pipeline().addLast(new ChunkedWriteHandler());
+                          ch.pipeline().addLast(new WebSocketServerProtocolHandler("/message"));
+                          ch.pipeline().addLast(new WebSocketServerHandler());
+                      }
+                  });
+                  serverBootstrap.option(ChannelOption.SO_BACKLOG, 64);
+                  ChannelFuture future = serverBootstrap.bind(ServerInfo.PORT).sync();
+                  future.channel().closeFuture().sync();
+              } catch (Exception e) {
+                  boosGrop.shutdownGracefully();
+                  workGrop.shutdownGracefully();
+              }
+          }
+      
+          public static void main(String[] args) throws Exception {
+              System.out.println("****************** 服务器正常启动 *********************");
+              new WebSocketServer().run();
+          }
+      }
+      ```
+   
+   3. `WebSocket`服务地址：`ws://localhost/message`
+   
+   ### 利用Netty实现WebSoket客户端
+
