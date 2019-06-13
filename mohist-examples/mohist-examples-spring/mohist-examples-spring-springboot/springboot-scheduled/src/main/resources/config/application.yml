@@ -1,0 +1,13 @@
+
+server:
+  port: 80
+
+spring:
+  task:
+    scheduling:
+      pool:
+        size: 5
+
+logging:
+  level:
+    root: info
