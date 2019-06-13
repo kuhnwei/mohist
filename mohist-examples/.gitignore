@@ -9,7 +9,6 @@
 *.class
 
 # generated files
-bin/
 gen/
 
 # Local configuration file (sdk path, etc)
@@ -42,5 +41,4 @@ war/WEB-INF/deploy/
 war/WEB-INF/classes/
 
 target
-build
 .gradle
