@@ -5,6 +5,7 @@
     - [mohist-examples-java-base](mohist-examples/mohist-examples-java/mohist-examples-java-base)
   - [mohist-examples-spring](mohist-examples/mohist-examples-spring)
     - [mohist-examples-spring-springboot](mohist-examples/mohist-examples-spring/mohist-examples-spring-springboot)
+      - [springboot-activemq](mohist-examples/mohist-examples-spring/mohist-examples-spring-springboot/springboot-activemq)
       - [springboot-ehcache](mohist-examples/mohist-examples-spring/mohist-examples-spring-springboot/springboot-ehcache)
       - [springboot-jdbc](mohist-examples/mohist-examples-spring/mohist-examples-spring-springboot/springboot-jdbc)
       - [springboot-mybatis](mohist-examples/mohist-examples-spring/mohist-examples-spring-springboot/springboot-mybatis)
@@ -21,6 +22,7 @@ mohist
 |   |   └── mohist-examples-java-base
 |   └── mohist-examples-spring
 |       └── mohist-examples-spring-springboot
+|           ├── springboot-activemq
 |           ├── springboot-ehcache
 |           ├── springboot-jdbc
 |           ├── springboot-mybatis

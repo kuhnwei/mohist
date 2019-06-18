@@ -1,0 +1,17 @@
+
+server:
+  port: 80
+
+spring:
+  activemq:
+    broker-url: tcp://192.168.180.131:61616
+    user: admin
+    password: admin
+    packages:
+      trust-all: true
+    in-memory: false
+
+logging:
+  level:
+    root: info
+    mohist.examples.spring.springboot: debug
