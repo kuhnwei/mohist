@@ -11,6 +11,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MohistApplication {
     public static void main(String[] args) {
         SpringApplication.run(MohistApplication.class, args);
-
     }
 }
