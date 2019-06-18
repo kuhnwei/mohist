@@ -1,0 +1,14 @@
+
+server:
+  port: 80
+
+logging:
+  level:
+    root: info
+    mohist.examples.spring.springboot: debug
+
+mohist:
+  mqtt:
+    server-uris: "tcp://192.168.1.224:1883"
+    username: admin
+    password: admin
