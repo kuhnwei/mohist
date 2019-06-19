@@ -387,3 +387,40 @@ docker pull kuhnwei/ubuntu:base
 
    ![docker build](img/11.png)
 
+## Docker 远程连接
+
+### 简易版
+
+创建`/etc/docker/daemon.json`文件
+
+```json
+{
+    "hosts": ["tcp://0.0.0.0:2376", "unix:///var/run/docker.sock"]
+}
+```
+
+### 复杂版
+
+```shell
+vim /lib/systemd/system/docker.service
+```
+
+```
+# 其中将ExechStart的值修改为
+# Ubuntu
+ExecStart=/usr/bin/docker -H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375
+
+# CentOS7
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock
+```
+
+## 配置完成后
+
+```
+# 重启docker网络
+systemctl daemon-reload
+
+# 重启docker服务
+systemctl restart docker
+```
+
