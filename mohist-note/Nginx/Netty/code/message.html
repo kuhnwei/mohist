@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>WebSocket通讯</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <div id="contentDiv" style="height: 300px; overflow: scroll; background: lightblue">
+        </div>
+        <div id="inputDiv">
+            请输入信息：<input type="text" name="msg" id="msg"/>
+            <button id="sendBut">发送</button>
+        </div>
+    </body>
+    <script type="text/javascript">
+        const url = "ws://localhost:8080/ws/test";
+        window.onload = () => {
+            let webSocket = new WebSocket(url);
+            webSocket.onopen = () => {
+                document.getElementById("contentDiv").innerHTML += "<p>服务器连接成功，请进行消息的处理。</p>";
+            };
+            webSocket.onclose = () => {
+                document.getElementById("contentDiv").innerHTML += "<p>已经和服务器断开连接。</p>";
+            };
+            webSocket.onmessage = (obj) => {
+                document.getElementById("contentDiv").innerHTML += "<p>" + obj.data + "</p>";
+                document.getElementById("msg").value = "";
+            };
+
+            document.getElementById("sendBut").addEventListener("click", () => {
+                let info = document.getElementById("msg").value;
+                webSocket.send(info);
+            }, false);
+        };
+    </script>
+</html>

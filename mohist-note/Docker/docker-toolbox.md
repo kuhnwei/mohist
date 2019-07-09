@@ -1,6 +1,6 @@
 # Docker-toolbox
 
-因目前 `docker for windows` 版本，仅限于 `windows 10` 专业版使用，在家庭版以及`win7`或`win8`并不支持`docker for windows` 版本。所以要想在 `windows 10`版本使用 `docker` 则可以安装 `docker-toolbox`来使用`docker`。
+因目前 `docker for windows` 版本，仅限于 `windows 10` 专业版使用，在家庭版以及`win7`或`win8`并不支持`docker for windows` 版本。所以要想在 `windows 10`版本使用 `docker` 则可以安装 `docker-toolbox`来使用`docker`。其中在新版本的`docker-toolbox`已经默认安装了`docker-compose`。
 
 > docker-toolbox安装包下载地址：
 >
@@ -51,4 +51,3 @@
    ```
    
    如果`docker-compose.yml`文件的目录挂载配置没有成功，则需要重启电脑。
-
