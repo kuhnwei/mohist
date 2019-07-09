@@ -29,7 +29,7 @@ public class ScheduledConfig {
     private MqttMessageGateway gateway;
 
     @Async
-    @Scheduled(cron = "0 0 * * * ?")
+    @Scheduled(cron = "${task.cron:0 0 12 * * ?}")
     public void taskSendSms() {
         String datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         String str = "[ " + datetime + " ] 测试：通过MQTT协议 给APP推送消息， 并发送短信。";
