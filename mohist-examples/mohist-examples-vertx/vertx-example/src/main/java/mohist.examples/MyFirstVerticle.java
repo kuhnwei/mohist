@@ -14,5 +14,10 @@ public class MyFirstVerticle extends AbstractVerticle {
                     .putHeader("content-type", "text/plain")
                     .end("Hello World!");
         }).listen(8080);
+
+        // 每秒执行
+        vertx.setPeriodic(1000, id -> {
+            System.out.println("timer fired! > " + id);
+        });
     }
 }
