@@ -96,7 +96,7 @@
         <!-- x -->
         <!-- y -->
         <!-- z -->
-        <zookeeper.version>3.4.6</zookeeper.version>
+        <zookeeper.version>3.4.14</zookeeper.version>
     </properties>
 
     <!-- 主仓库 -->
