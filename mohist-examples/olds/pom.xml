@@ -33,7 +33,7 @@
     <properties>
         <!-- a -->
         <activation.version>1.1.1</activation.version>
-        <amqp-client.version>4.1.1</amqp-client.version>
+        <amqp-client.version>4.8.0</amqp-client.version>
         <aspectjweaver.version>1.8.1</aspectjweaver.version>
         <!-- b -->
         <buji-pac4j.verison>3.0.0</buji-pac4j.verison>
