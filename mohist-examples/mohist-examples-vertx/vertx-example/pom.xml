@@ -12,7 +12,7 @@
     <url>http://www.mohist.site</url>
 
     <properties>
-        <vertx.version>3.4.2</vertx.version>
+        <vertx.version>3.8.5</vertx.version>
         <main.class>io.vertx.core.Launcher</main.class>
         <main.verticle>mohist.examples.MainVerticle</main.verticle>
     </properties>
