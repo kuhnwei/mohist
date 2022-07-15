@@ -62,7 +62,7 @@
         <jstl.version>1.2</jstl.version>
         <junit.version>4.12</junit.version>
         <jedis.version>2.9.0</jedis.version>
-        <jackson.version>2.7.4</jackson.version>
+        <jackson.version>2.12.6.1</jackson.version>
         <jboss-vfs.version>3.2.11.Final</jboss-vfs.version>
         <jboss-logging.version>3.1.4.GA</jboss-logging.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
